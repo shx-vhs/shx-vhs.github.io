@@ -1,522 +1,613 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kristian Eicke | Artist</title>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Kristian Eicke | Artist</title>
 
-    <style>
-        
-        
-/* =========================================
+        <style>
+            /* =========================================
 1. CSS VARIABLES (THEME PALETTE)
 ========================================= */
-        
-        :root {
-            --bg-color: #f8f9fa;
-            --text-main: #333333;
-            --text-muted: #666666;
-            --border-color: #d1d5da;
-            --accent-color: #c15b22; 
-            --hover-underline: #c15b22; 
-            --font-mono: 'Courier New', Courier, monospace;
-        }
-        
-/* =========================================
+
+            :root {
+                --bg-color: #f8f9fa;
+                --text-main: #333333;
+                --text-muted: #666666;
+                --border-color: #d1d5da;
+                --accent-color: #c15b22;
+                --hover-underline: #c15b22;
+                --font-mono: "Courier New", Courier, monospace;
+            }
+
+            /* =========================================
 2. RESET & BASE STYLES
 ========================================= */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: var(--font-mono);
-            font-size: 14px;
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-        }
+            body {
+                background-color: var(--bg-color);
+                color: var(--text-main);
+                font-family: var(--font-mono);
+                font-size: 14px;
+                line-height: 1.6;
+                -webkit-font-smoothing: antialiased;
+            }
 
-        a {
-            color: inherit;
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
+            a {
+                color: inherit;
+                text-decoration: none;
+                transition: color 0.2s ease;
+            }
 
-        /* Global hover behavior, overridden specifically for nav below */
-        a:hover {
-            color: var(--accent-color);
-        }
+            /* Global hover behavior, overridden specifically for nav below */
+            a:hover {
+                color: var(--accent-color);
+            }
 
-/* =========================================
+            /* =========================================
 3. LAYOUT & STRUCTURE
 ========================================= */
-        
-        .layout-container {
-            display: flex;
-            flex-direction: row;
-            min-height: 100vh;
-        }
 
-/* --- LEFT COLUMN (Navigation) --- */
-        .nav-column {
-            width: 250px;
-            flex-shrink: 0;
-            padding: 40px 40px 40px 60px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .logo {
-            font-size: 1.4rem;
-            color: var(--text-muted);
-            margin-bottom: 40px;
-            letter-spacing: 1px;
-            display: block;
-            cursor: pointer;
-            line-height: 1.2;
-        }
-
-        .logo .last-name {
-            font-weight: bold;
-            color: var(--text-main);
-        }
-
-        .logo-divider {
-            border: none;
-            height: 1px;
-            background-color: var(--border-color);
-            width: 100%;
-            margin-bottom: 30px;
-        }
-
-/* NAV LINK STYLING */
-        .main-nav ul {
-            list-style: none;
-            margin-bottom: 30px;
-        }
-
-        .main-nav li {
-            margin-bottom: 12px;
-        }
-
-        .main-nav a {
-            color: var(--text-muted);
-            position: relative;
-            display: inline-block;
-            padding-bottom: 2px;
-        }
-
-/* Underline Effect */
-        .main-nav a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 1.5px;
-            bottom: 0;
-            left: 0;
-            background-color: var(--hover-underline);
-            transition: width 0.3s ease;
-        }
-
-        .main-nav a:hover::after {
-            width: 100%;
-        }
-
-/* Optional: Change text color slightly on hover too, or keep muted */
-        .main-nav a:hover {
-            color: var(--text-main);
-        }
-
-        .nav-divider {
-            border: none;
-            height: 1px;
-            background-color: var(--border-color);
-            width: 100%;
-            margin-bottom: 30px;
-        }
-
-        .social-nav a {
-            margin-right: 10px;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-        
-/* Social links don't get the yellow underline, just color change */
-        .social-nav a::after { display: none; }
-
-/* --- RIGHT COLUMN (Content) --- */
-        .content-column {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start; /* Start from top, not center, to allow scrolling */
-            padding: 40px;
-            width: 100%;
-            overflow-y: auto; /* Allow internal scrolling if content is tall */
-        }
-
-/* =========================================
- *  4. COMPONENTS & SECTIONS
- *  ========================================= */
-
-
-        /* Common styles for all content sections */
-        .content-section {
-            width: 100%;
-            max-width: 800px;
-            display: none; /* Hidden by default */
-        }
-
-        #landing-view.active {
-            display: block;
-        }
-        #landing-view:not(.active) {
-            display: none;
-        }       
-
-        .content-section.active {
-            display: block;
-        }
-
-        /* Landing Page Specifics */
-        #landing-view {
-            display: block; /* Visible by default */
-            text-align: center;
-        }
-
-        .hero-image-container {
-            width: 100%;
-            max-width: 900px;
-         /*   border: 1px solid var(--text-main);*/
-            margin-bottom: 40px;
-            display: block;
-        }
-
-        .hero-image-container img {
-            width: 80%;
-            height: auto;
-            display: block;
-        }
-
-        /* Apply grayscale only to images in the "Who" section */
-        #who .grayscale-image {
-            filter: grayscale(100%);
-             width: 60%;
-           
-        }
-
-        #who .grayscale-image:hover {
-            filter: grayscale(100%) brightness(1.05);
-        }
-
-        .site-footer {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        /* Generic Section Styling (Who, Dev, etc.) */
-        .section-title {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            color: var(--text-main);
-            text-transform: lowercase;
-            letter-spacing: 2px;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 10px;
-            display: flex;
-            align-items: center;
-            height: 2.5rem;
-            font-weight: normal;
-        }
-
-        .section-body {
-            color: var(--text-main);
-            margin-bottom: 30px;
-            line-height: 1.8;
-        }
-        
-        .section-body p {
-            margin-bottom: 15px;
-        }
-
-/* =========================================
-5. RESPONSIVE DESIGN
-           ========================================= */
-        @media (max-width: 768px) {
             .layout-container {
+                display: flex;
+                flex-direction: row;
+                min-height: 100vh;
+            }
+
+            /* --- LEFT COLUMN (Navigation) --- */
+            .nav-column {
+                width: 250px;
+                flex-shrink: 0;
+                padding: 40px 40px 40px 60px;
+                display: flex;
                 flex-direction: column;
             }
 
-            .nav-column {
+            .logo {
+                font-size: 1.4rem;
+                color: var(--text-muted);
+                margin-bottom: 40px;
+                letter-spacing: 1px;
+                display: block;
+                cursor: pointer;
+                line-height: 1.2;
+            }
+
+            .logo .last-name {
+                font-weight: bold;
+                color: var(--text-main);
+            }
+
+            .logo-divider {
+                border: none;
+                height: 1px;
+                background-color: var(--border-color);
                 width: 100%;
-                padding: 30px;
-                border-bottom: 1px solid var(--border-color);
+                margin-bottom: 30px;
             }
-            
-            .content-column {
-                padding: 20px;
+
+            /* NAV LINK STYLING */
+            .main-nav ul {
+                list-style: none;
+                margin-bottom: 30px;
             }
-            
+
+            .main-nav li {
+                margin-bottom: 12px;
+            }
+
             .main-nav a {
-                display: block; /* Stack nav items on mobile for better touch targets */
+                color: var(--text-muted);
+                position: relative;
+                display: inline-block;
+                padding-bottom: 2px;
             }
-        }
-    </style>
-</head>
 
-<body>
+            /* Underline Effect */
+            .main-nav a::after {
+                content: "";
+                position: absolute;
+                width: 0;
+                height: 1.5px;
+                bottom: 0;
+                left: 0;
+                background-color: var(--hover-underline);
+                transition: width 0.3s ease;
+            }
 
-    <div class="layout-container">
+            .main-nav a:hover::after {
+                width: 100%;
+            }
 
-        <!-- LEFT COLUMN: Navigation -->
-        <aside class="nav-column">
-            <a href="#" class="logo home-link">
-                <span class="first-name">kristian</span>
-                <br>
-                <span class="last-name">eicke</span>
-            </a>
-            
-            <hr class="logo-divider">
+            /* Optional: Change text color slightly on hover too, or keep muted */
+            .main-nav a:hover {
+                color: var(--text-main);
+            }
 
-            <nav class="main-nav">
-                <ul>
-                    <!-- data-target must match the ID of the section in main -->
-                    <li><a href="#" class="nav-link" data-target="who">who</a></li>
-                    <li><a href="#" class="nav-link" data-target="dev">dev</a></li>
-                    <li><a href="#" class="nav-link" data-target="metalworks">metal</a></li>
-                    <li><a href="#" class="nav-link" data-target="publications">pubs</a></li>
-                    <li><a href="#" class="nav-link" data-target="contact">contact</a></li>
-                </ul>
-            </nav>
+            .nav-divider {
+                border: none;
+                height: 1px;
+                background-color: var(--border-color);
+                width: 100%;
+                margin-bottom: 30px;
+            }
 
-            <hr class="nav-divider">
+            .social-nav a {
+                margin-right: 10px;
+                color: var(--text-muted);
+                font-size: 0.9rem;
+            }
 
-            <div class="social-nav">
-                <a href="https://github.com/shx-vhs" target="_blank" rel="noopener">[git]</a>
+            /* Social links don't get the yellow underline, just color change */
+            .social-nav a::after {
+                display: none;
+            }
 
-                <a href="https://www.instagram.com/eidechse13/" target="_blank" rel="noopener">[i]</a>
-            </div>
-        </aside>
+            /* --- RIGHT COLUMN (Content) --- */
+            .content-column {
+                flex-grow: 1;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start; /* Start from top, not center, to allow scrolling */
+                padding: 40px;
+                width: 100%;
+                overflow-y: auto; /* Allow internal scrolling if content is tall */
+            }
 
-        
- <!-- 
+            /* =========================================
+ *  4. COMPONENTS & SECTIONS
+ *  ========================================= */
+
+            /* Common styles for all content sections */
+            .content-section {
+                width: 100%;
+                max-width: 800px;
+                display: none; /* Hidden by default */
+            }
+
+            #landing-view.active {
+                display: block;
+            }
+            #landing-view:not(.active) {
+                display: none;
+            }
+
+            .content-section.active {
+                display: block;
+            }
+
+            /* Landing Page Specifics */
+            #landing-view {
+                display: block; /* Visible by default */
+                text-align: center;
+            }
+
+            .hero-image-container {
+                width: 100%;
+                max-width: 900px;
+                /*   border: 1px solid var(--text-main);*/
+                margin-bottom: 40px;
+                display: block;
+            }
+
+            .hero-image-container img {
+                width: 80%;
+                height: auto;
+                display: block;
+            }
+
+            /* Apply grayscale only to images in the "Who" section */
+            #who .grayscale-image {
+                filter: grayscale(100%);
+                width: 60%;
+            }
+
+            #who .grayscale-image:hover {
+                filter: grayscale(100%) brightness(1.05);
+            }
+
+            .site-footer {
+                color: var(--text-muted);
+                font-size: 0.85rem;
+                text-align: center;
+                margin-top: 20px;
+            }
+
+            /* Generic Section Styling (Who, Dev, etc.) */
+            .section-title {
+                font-size: 1.5rem;
+                margin-bottom: 20px;
+                color: var(--text-main);
+                text-transform: lowercase;
+                letter-spacing: 2px;
+                border-bottom: 2px solid var(--border-color);
+                padding-bottom: 10px;
+                display: flex;
+                align-items: center;
+                height: 2.5rem;
+                font-weight: normal;
+            }
+
+            .section-body {
+                color: var(--text-main);
+                margin-bottom: 30px;
+                line-height: 1.8;
+            }
+
+            .section-body p {
+                margin-bottom: 15px;
+            }
+
+            /* =========================================
+5. RESPONSIVE DESIGN
+           ========================================= */
+            @media (max-width: 768px) {
+                .layout-container {
+                    flex-direction: column;
+                }
+
+                .nav-column {
+                    width: 100%;
+                    padding: 30px;
+                    border-bottom: 1px solid var(--border-color);
+                }
+
+                .content-column {
+                    padding: 20px;
+                }
+
+                .main-nav a {
+                    display: block; /* Stack nav items on mobile for better touch targets */
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="layout-container">
+            <!-- LEFT COLUMN: Navigation -->
+            <aside class="nav-column">
+                <a href="#" class="logo home-link">
+                    <span class="first-name">kristian</span>
+                    <br />
+                    <span class="last-name">eicke</span>
+                </a>
+
+                <hr class="logo-divider" />
+
+                <nav class="main-nav">
+                    <ul>
+                        <!-- data-target must match the ID of the section in main -->
+                        <li><a href="#" class="nav-link" data-target="who">who</a></li>
+                        <li><a href="#" class="nav-link" data-target="dev">dev</a></li>
+                        <li><a href="#" class="nav-link" data-target="metalworks">metal</a></li>
+                        <li><a href="#" class="nav-link" data-target="publications">pubs</a></li>
+                        <li><a href="#" class="nav-link" data-target="contact">contact</a></li>
+                    </ul>
+                </nav>
+
+                <hr class="nav-divider" />
+
+                <div class="social-nav">
+                    <a href="https://github.com/shx-vhs" target="_blank" rel="noopener">[git]</a>
+
+                    <a href="https://www.instagram.com/eidechse13/" target="_blank" rel="noopener">[i]</a>
+                </div>
+            </aside>
+
+            <!-- 
 ==============================================================================================================================================================
         CONTENT SECTION 
 ==============================================================================================================================================================
  -->
-        
-        <main class="content-column">
 
-            <!-- 1. LANDING PAGE (Default) -->
-            <div id="landing-view" class="content-section active">
-                <div class="hero-image-container">
-                    <img src="assets/img/landing-page.JPG" alt="Landing Page Image">
-                </div>
-                <footer class="site-footer">
-                    &copy; kristianeicke.net 2026
-                </footer>
-            </div>
-
-        <!-- 2. SECTION: WHO -->
-        <section id="who" class="content-section">
-            <h2 class="section-title"><b>Who</b></h2>
-            <div class="section-body">
-                <p>
-                    Hi, I'm Kristian. I graduated in 2024 from the Music, Communication and Technology program at the University of Oslo. Since then, I took a little detour into the workshop 
-                    and completed my international certification in welding for steel and stainless this year.I'm seeking roles that connect both of my worlds. 
-                    My path lies in blending technology and metalwork in a meaningful way.
-                    &nbsp;</p>
-
-                <div class="hero-image-container">
-                    <img src="assets/img/portrait_bw.jpg" alt="Bio Image" class="grayscale-image">
-                </div>
-                                <footer class="site-footer">
-                    &copy; kristianeicke.net 2026
-                </footer>
-            </div>
-        </section>
-
-
-            <!-- 3. SECTION: DEV -->
-            <section id="dev" class="content-section">
-                <h2 class="section-title">Dev</h2>
-                <div class="section-body">
-                    <p>
-                        
-                        A more in-depth description of many of my projects can be found on my MCT <b>
-                        <a href="https://mct-master.github.io/authors/kristianeicke.html" target="_blank" rel="noopener">blog</a></b><a href="https://mct-master.github.io/authors/kristianeicke.html" target="_blank" rel="noopener"></a> page. 
-                        <br>
-                        <br>
-                        <a href="https://mct-master.github.io/masters-thesis/2024/12/15/kristeic-screamscape.html" target="_blank" rel="noopener"><b>Screamscape</b></a>(2024)
-                                                <br>
-                        
-                        an interactive music system which is gesture controlled, designed to manipulate extreme vocal effects live on stage.
-                    Uses motion capture to map hand movement to the timbre of screams and growls. Built in Max MSP with ESP32-based hardware and it's really about bridging the gap between vocal technique and digital signal processing.</p>
-                        
-                 <div class="hero-image-container">
-                    <img src="assets/img/screamscape.png">
-                     <br>
-                     <img src="assets/img/screamscape_hardware.png">
-
-                </div>
-                    
-                    <hr style="border: 0; height: 1px; background: #ccc; margin: 20px 0;">
-                    
-
-                        <br>
-                        <br>
-                        <a href="https://mct-master.github.io/interactive-music/2023/12/04/kristeic-xyborg.html" target="_blank" rel="noopener"><b>Xyborg 2.0</b></a> (2023)
-                        <p> a hand-based gesture-controlled music instrument built with capacitive touch sensors, accelerometers, and a Bela embedded system running Pure Data, 
-                        enabling real-time, body-driven control of audio effects such as filter cutoff, distortion, and vibrato. Maps hand motion and position to sonic parameters. Inspired by Michel Waiswisz’ <i>The Hands</i>.</p>
-                
-                <div class="hero-image-container">
-                    <img src="assets/img/xyborg.png">
-                     <br>
-                </div>
-                    
-<iframe
-    width="560"
-    height="315"
-    src="https://www.youtube.com/embed/ySrjSWU_Mf8?si=UzV7_N_VJ2zBjLsG&amp;start=850"
-    title="YouTube video player"
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-    referrerpolicy="strict-origin-when-cross-origin"
-    allowfullscreen></iframe>  
-                    
-                        <br>
-                        <br>
-                    <hr style="border: 0; height: 1px; background: #ccc; margin: 20px 0;">
-
-                        <a href="https://github.com/shx-vhs/pd_cellular_automaton" target="_blank" rel="noopener"><b>PD Cellular Automaton</b></a> (2024)
-                       <br>
-                    
-                    Pure Data patch based on the idea of John Conway's Game of Life determining the structure of the music. 
-                        <br>
-                    <br>
-                    
-        <video 
-            width="640" 
-            height="360" 
-            controls 
-            preload="metadata"
-            poster="assets/img/CA_poster.png">
-            <source src="assets/video/CA_pd_mod.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-                        <br>
-                        <a href="" target="_blank" rel="noopener"></a> (2024)
-                        <br>
-                        <br>
-                        <a href="" target="_blank" rel="noopener"></a> (2024)
-
-                        
-                        
-                </div>
-            </section>
-
-            
-<!-- 3. SECTION: METALWORKS -->
-            <section id="metalworks" class="content-section">
-                <h2 class="section-title">Metal</h2>
-                <div class="section-body">
-                    <p>
-                        <!-- ADD YOUR CONTENT HERE -->
-                        Working with sheet metal in an artistic style is a relatively new world for me, so not much to see here until now. 
-                        In the meantime, check out what I tried and build so far.
-                        <br>
-                        <br>
-                        
-                        
-                        <b>Etchings</b> (2026)
-                         <br>
-                    A selection of etched metal sheets. A thin layer of photosensitive tape is applied and a high-contrast negative is placed on top,
-                which is then exposed to UV light. Unhardened resist is then washed away and the sheet is immersed in ferric chloride. The motive is then etched into the metal. Cold blueing
-                        is applied as a last step to bring the motive out.
-                        
-                        
-                    </p>
+            <main class="content-column">
+                <!-- 1. LANDING PAGE (Default) -->
+                <div id="landing-view" class="content-section active">
                     <div class="hero-image-container">
-                        <img src="assets/img/metalprints.JPG" alt="Metal Image">
+                        <img src="assets/img/landing-page.JPG" alt="Landing Page Image" />
                     </div>
+                    <footer class="site-footer">&copy; kristianeicke.net 2026</footer>
                 </div>
-            </section>
-            
-<!-- 4. SECTION: PUBS -->
-            <section id="publications" class="content-section">
-                <h2 class="section-title">pubs</h2>
-                <div class="section-body">
-                <p> <b>Publications</b> </p>
 
-                     <ul>
-                        <li>(2024) Eicke, Kristian. "Screamscape: Gestural Vocal Manipulation Based on Sonic Properties of Extreme Vocal Effects".</li>
-                        <li>(2024) Eicke, Kristian, Stefano Fasciani, and Çağrı Erdem. "Xyborg: A Wearable Hand-based Instrument for Musical Expression." <i>Proceedings of the International Conference on New Interfaces for Musical Expression</i>.</li>
-                        <li>(2023) Baba, Aysima, Kristian Eicke, Jack Hardwick, Nino Jakeli, and Alexander Wastnidge. "MUZZIBALL APPLIED PROJECT REPORT.".</li>
-                         <li>(2022) Eicke, Kristian. "The Connection of Sound and Image in <i>Alien</i>".</li>
-                    </ul>
+                <!-- 2. SECTION: WHO -->
+                <section id="who" class="content-section">
+                    <h2 class="section-title"><b>Who</b></h2>
+                    <div class="section-body">
+                        <p>
+                            Hi, ich bin Kristian. Ich bewege mich irgendwo zwischen Kunst, Metall und Code. Ich habe
+                            einen Hintergrund in Musiktechnologie, doch ich verbringe viel Zeit mit Schweißen und bauen
+                            in der Werkstatt. Kontaktiere mich gern für Kooperationen. Ich suche ständig nach Projekten,
+                            in denen sich meine beiden Welten, Handwerk und Technik, verbinden lassen.
+                            
+                            
+                        </p>
                         
+                        <hr style="border: 0; height: 1px; background: #ccc; margin: 20px 0" />
 
-                    
+                            <p>
+                            Hi, my name is Kristian, a maker who lives somewhere between art, metal and coding. I have a background in
+                            music technology and practical expertise welding and building things. I enjoy making objects
+                            that (make you) move. Please contact me for collaborations, I am constantly looking for
+                            roles that will bring both of my worlds together.
+                            
+                            
+                            
+                        </p>
+                        
+                        <div class="hero-image-container">
+                            <img src="assets/img/portrait_bw.jpg" alt="Bio Image" class="grayscale-image" />
+                        </div>
+                        <footer class="site-footer">&copy; kristianeicke.net 2026</footer>
+                    </div>
+                </section>
 
-                </div>
-            </section>
+                <!-- 3. SECTION: DEV -->
+                <section id="dev" class="content-section">
+                    <h2 class="section-title">Dev</h2>
+                    <div class="section-body">
+                        <p>
+                            A more in-depth description of many of my projects can be found on my MCT
+                            <b>
+                                <a
+                                    href="https://mct-master.github.io/authors/kristianeicke.html"
+                                    target="_blank"
+                                    rel="noopener"
+                                    >blog</a
+                                ></b
+                            ><a
+                                href="https://mct-master.github.io/authors/kristianeicke.html"
+                                target="_blank"
+                                rel="noopener"></a>
+                            page.
+                            <br />
+                            <br />
+                            <a
+                                href="https://mct-master.github.io/masters-thesis/2024/12/15/kristeic-screamscape.html"
+                                target="_blank"
+                                rel="noopener"
+                                ><b>Screamscape</b></a
+                            >(2024)
+                            <br />
 
-<!-- 5. SECTION: CONTACT -->
-            <section id="contact" class="content-section">
-                <h2 class="section-title">Contact</h2>
-                <div class="section-body">
-                    <p>I'm always open to collaboration and creative partnerships.&nbsp;<span style="font-family: var(--font-mono);">I'd love to hear from you.</span><br><br></p>
-                    <p>Email: misc-ekr@proton.me</p>
-                </div>
-            </section>
+                            an interactive music system which is gesture controlled, designed to manipulate extreme
+                            vocal effects live on stage. Uses motion capture to map hand movement to the timbre of
+                            screams and growls. Built in Max/MSP with ESP32-based hardware and it's really about
+                            bridging the gap between vocal technique and digital signal processing.
+                        </p>
 
-        </main>
-    </div>
+                        <div class="hero-image-container">
+                            <img src="assets/img/screamscape.png" />
+                            <br />
+                            <img src="assets/img/screamscape_hardware.png" />
+                            <br />
+                        </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            
-            const navLinks = document.querySelectorAll('.nav-link');
-            const homeLink = document.querySelector('.home-link');
-            const allSections = document.querySelectorAll('.content-section');
-            const landingView = document.getElementById('landing-view');
+                        <hr style="border: 0; height: 1px; background: #ccc; margin: 20px 0" />
 
-            // Helper to hide all sections
-            function hideAllSections() {
-                allSections.forEach(section => {
-                    section.classList.remove('active');
+                        <a
+                            href="https://mct-master.github.io/interactive-music/2023/12/04/kristeic-xyborg.html"
+                            target="_blank"
+                            rel="noopener"
+                            ><b>Xyborg 2.0</b></a
+                        >
+                        (2023)
+                        <p>
+                            a hand-based gesture-controlled music instrument built with capacitive touch sensors,
+                            accelerometers, and a Bela embedded system running Pure Data, enabling real-time,
+                            body-driven control of audio effects such as filter cutoff, distortion, and vibrato. Maps
+                            hand motion and position to sonic parameters. Inspired by Michel Waiswisz’ <i>The Hands</i>.
+                        </p>
+
+                        <div class="hero-image-container">
+                            <img src="assets/img/xyborg.png" />
+                            <br />
+                        </div>
+
+                        <iframe
+                            width="560"
+                            height="315"
+                            src="https://www.youtube.com/embed/ySrjSWU_Mf8?si=UzV7_N_VJ2zBjLsG&amp;start=850"
+                            title="YouTube video player"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin"
+                            allowfullscreen></iframe>
+
+                        <br />
+                        <br />
+                        <hr style="border: 0; height: 1px; background: #ccc; margin: 20px 0" />
+
+                        <a href="https://github.com/shx-vhs/pd_cellular_automaton" target="_blank" rel="noopener"
+                            ><b>PD Cellular Automaton</b></a
+                        >
+                        (2024)
+                        <br />
+
+                        Pure Data patch based on the idea of John Conway's Game of Life determining the structure of the
+                        music.
+                        <br />
+                        <br />
+
+                        <video width="640" height="360" controls preload="metadata" poster="assets/img/CA_poster.png">
+                            <source src="assets/video/CA_pd_mod.mp4" type="video/mp4" />
+                            Your browser does not support the video tag.
+                        </video>
+                        <br />
+                        <br />
+                        <hr style="border: 0; height: 1px; background: #ccc; margin: 20px 0" />
+
+                        <p>
+                            <b>Endlager</b> (2022)
+                            <br />
+                            live performance processed in Max/MSP, using a larynx microphone as the primary audio
+                            source. Reflections on the lasting legacy of human-made structures like nuclear waste
+                            storage. Poem is “Ozymandias” by Percy Bysshe Shelley.
+                        </p>
+                        <br />
+                        <audio controls preload="metadata">
+                            <source src="assets/audio/Endlager.mp3" type="audio/mpeg" />
+                            Your browser does not support the audio element.
+                        </audio>
+
+                        <br />
+                        <br />
+                        <div class="hero-image-container">
+                            <img src="assets/img/Endlager.JPG" />
+                            <br />
+                            <img src="assets/img/Endlager_worn.JPG" />
+                            <br />
+                        </div>
+                        <hr style="border: 0; height: 1px; background: #ccc; margin: 20px 0" />
+                        <p><b>Wespe/Blüte</b>(2022)</p>
+                        a reactive sound installation using live environmental recordings processed in Max/MSP, where
+                        frequency bands are routed to independent effect chains and additive synthesis modules Paired
+                        with Blüte, a plant-based haptic sound instrument using piezo pickups and Max-based synthesis.
+
+                        <br />
+                        <br />
+
+                        <audio id="audioPlayer" controls preload="metadata">
+                            <source src="assets/audio/snippet_wespe.mp3" type="audio/mpeg" />
+                            Your browser does not support the audio element.
+                        </audio>
+
+                        <br />
+                        <br />
+                        <video
+                            width="360"
+                            height="640"
+                            controls
+                            preload="metadata"
+                            poster="assets/img/Blüte_poster.png">
+                            <source src="assets/video/Blüte.mp4" type="video/mp4" />
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </section>
+
+                <!-- 3. SECTION: METALWORKS -->
+                <section id="metalworks" class="content-section">
+                    <h2 class="section-title">Metal</h2>
+                    <div class="section-body">
+                        <p>
+                            <!-- ADD YOUR CONTENT HERE -->
+                            Working with sheet metal in an artistic style is a relatively new world for me, so not much
+                            to see here until now. In the meantime, check out what I made so far.
+                            <br />
+                            <br />
+
+                            <b>Etchings</b> (2026 -ongoing)
+                            <br />
+                            Test plates to find good parameters for photochemical etching (ferric chloride). Cold
+                            blueing is applied as a last step to bring the motive out.
+                        </p>
+                        <div class="hero-image-container">
+                            <img src="assets/img/stillborn.JPG" alt="stillborn" />
+                            <br />
+                            <img src="assets/img/guts.JPG" alt="guts" />
+                            <br />
+                            <img src="assets/img/eyes.JPG" alt="eyes" />
+                            <br />
+                            <br />
+
+                            <b>Beltgrinder</b> (2026)
+                            <br />
+                            <p>Welded from scratch in my workshop.</p>
+                            <img src="assets/img/beltgrinder.JPG" alt="beltgrinder" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 4. SECTION: PUBS -->
+                <section id="publications" class="content-section">
+                    <h2 class="section-title">pubs</h2>
+                    <div class="section-body">
+                        <p><b>Publications</b></p>
+
+                        <ul>
+                            <li>
+                                (2024) Eicke, Kristian. "Screamscape: Gestural Vocal Manipulation Based on Sonic
+                                Properties of Extreme Vocal Effects".
+                            </li>
+                            <li>
+                                (2024) Eicke, Kristian, Stefano Fasciani, and Çağrı Erdem. "Xyborg: A Wearable
+                                Hand-based Instrument for Musical Expression."
+                                <i
+                                    >Proceedings of the International Conference on New Interfaces for Musical
+                                    Expression</i
+                                >.
+                            </li>
+                            <li>
+                                (2023) Baba, Aysima, Kristian Eicke, Jack Hardwick, Nino Jakeli, and Alexander
+                                Wastnidge. "MUZZIBALL APPLIED PROJECT REPORT.".
+                            </li>
+                            <li>(2022) Eicke, Kristian. "The Connection of Sound and Image in <i>Alien</i>".</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- 5. SECTION: CONTACT -->
+                <section id="contact" class="content-section">
+                    <h2 class="section-title">Contact</h2>
+                    <div class="section-body">
+                        <p>
+                            I'm always open to collaboration and creative partnerships.&nbsp;<span
+                                style="font-family: var(--font-mono)"
+                                >I'd love to hear from you.</span
+                            ><br /><br />
+                        </p>
+                        <p>Email: misc-ekr@proton.me</p>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <!--            /* =========================================
+5. EVENT LISTENERS
+           ========================================= */-->
+
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const navLinks = document.querySelectorAll(".nav-link");
+                const homeLink = document.querySelector(".home-link");
+                const allSections = document.querySelectorAll(".content-section");
+                const landingView = document.getElementById("landing-view");
+
+                // Helper to hide all sections
+                function hideAllSections() {
+                    allSections.forEach((section) => {
+                        section.classList.remove("active");
+                    });
+                }
+
+                // 1. Handle Navigation Link Clicks
+                navLinks.forEach((link) => {
+                    link.addEventListener("click", (e) => {
+                        e.preventDefault();
+
+                        const targetId = link.getAttribute("data-target");
+                        const targetSection = document.getElementById(targetId);
+
+                        if (targetSection) {
+                            hideAllSections();
+                            targetSection.classList.add("active");
+                        }
+                    });
                 });
-            }
 
-            // 1. Handle Navigation Link Clicks
-            navLinks.forEach(link => {
-                link.addEventListener('click', (e) => {
+                // 2. Handle Home/Logo Click
+                homeLink.addEventListener("click", (e) => {
                     e.preventDefault();
-
-                    const targetId = link.getAttribute('data-target');
-                    const targetSection = document.getElementById(targetId);
-
-                    if (targetSection) {
-                        hideAllSections();
-                        targetSection.classList.add('active');
-                    }
+                    hideAllSections();
+                    landingView.classList.add("active");
                 });
             });
-
-            // 2. Handle Home/Logo Click
-            homeLink.addEventListener('click', (e) => {
-                e.preventDefault();
-                hideAllSections();
-                landingView.classList.add('active');
-            });
-        });
-    </script>
-
-</body>
+        </script>
+    </body>
 </html>
