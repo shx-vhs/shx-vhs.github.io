@@ -12,7 +12,7 @@
 
             :root {
                 --bg-color: #f8f9fa;
-                --text-main: #333333;
+                --text-main: #282828;
                 --text-muted: #666666;
                 --border-color: #d1d5da;
                 --accent-color: #c15b22;
@@ -202,15 +202,17 @@
                 display: block;
             }
 
-            /* Apply grayscale only to images in the "Who" section */
+/*             Apply grayscale only to images in the "Who" section */
             #who .grayscale-image {
-                filter: grayscale(100%);
-                width: 60%;
+             /*   filter: grayscale(100%);*/
+                width: 55%;
+                display:block;
+                margin: auto;
             }
 
-            #who .grayscale-image:hover {
+/*            #who .grayscale-image:hover {
                 filter: grayscale(100%) brightness(1.05);
-            }
+            }*/
 
             .site-footer {
                 color: var(--text-muted);
@@ -320,29 +322,19 @@
                 <section id="who" class="content-section">
                     <h2 class="section-title"><b>Who</b></h2>
                     <div class="section-body">
-                        <p>
-                            Hi, ich bin Kristian. Ich bewege mich irgendwo zwischen Kunst, Metall und Code. Ich habe
-                            einen Hintergrund in Musiktechnologie, doch ich verbringe viel Zeit mit Schweißen und bauen
-                            in der Werkstatt. Kontaktiere mich gern für Kooperationen. Ich suche ständig nach Projekten,
-                            in denen sich meine beiden Welten, Handwerk und Technik, verbinden lassen.
-                            
-                            
-                        </p>
-                        
-                        <hr style="border: 0; height: 1px; background: #ccc; margin: 20px 0" />
 
                             <p>
-                            Hi, my name is Kristian, a maker who lives somewhere between art, metal and coding. I have a background in
-                            music technology and practical expertise welding and building things. I enjoy making objects
-                            that (make you) move. Please contact me for collaborations, I am constantly looking for
-                            roles that will bring both of my worlds together.
+                            I am a maker who lives somewhere between art, metal and coding. I have a background in
+                            music technology spending most of my time in the workshop now. I enjoy making objects
+                            that move (you). Please contact me for crazy ideas or collaborations, I am constantly looking for
+                            roles that connect both of my worlds.
                             
                             
                             
                         </p>
                         
                         <div class="hero-image-container">
-                            <img src="assets/img/portrait_bw.jpg" alt="Bio Image" class="grayscale-image" />
+                            <img src="assets/img/portrait.jpg" alt="Bio Image" class="grayscale-image" />
                         </div>
                         <footer class="site-footer">&copy; kristianeicke.net 2026</footer>
                     </div>
@@ -484,7 +476,7 @@
                             height="640"
                             controls
                             preload="metadata"
-                            poster="assets/img/Blüte_poster.png">
+                            poster="assets/img/BluetePoster.png">
                             <source src="assets/video/Blüte.mp4" type="video/mp4" />
                             Your browser does not support the video tag.
                         </video>
@@ -496,21 +488,17 @@
                     <h2 class="section-title">Metal</h2>
                     <div class="section-body">
                         <p>
-                            <!-- ADD YOUR CONTENT HERE -->
-                            Working with sheet metal in an artistic style is a relatively new world for me, so not much
-                            to see here until now. In the meantime, check out what I made so far.
-                            <br />
-                            <br />
+                            
+                            Sheet metal experiments and workshop machine builds.&nbsp;<br>
+                            <br>
 
                             <b>Etchings</b> (2026 -ongoing)
-                            <br />
-                            Test plates to find good parameters for photochemical etching (ferric chloride). Cold
-                            blueing is applied as a last step to bring the motive out.
+                            <br>
+                            Test plates to find suitable parameters for photochemical etching with ferric chloride. Cold
+                            bluing applied to bring the motive out.
                         </p>
                         <div class="hero-image-container">
                             <img src="assets/img/stillborn.JPG" alt="stillborn" />
-                            <br />
-                            <img src="assets/img/guts.JPG" alt="guts" />
                             <br />
                             <img src="assets/img/eyes.JPG" alt="eyes" />
                             <br />
